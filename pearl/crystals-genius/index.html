@@ -76,6 +76,17 @@ em{font-style:italic}
 .hd-headline{font-family:var(--disp); font-style:italic; font-weight:500; color:var(--pearl); font-size:clamp(26px,5vw,40px); margin:1.5em 0 .35em; letter-spacing:.01em}
 .typeline{font-family:var(--serif); text-transform:uppercase; letter-spacing:.22em; font-size:12.5px; color:var(--aqua); line-height:1.9; margin:0 auto; max-width:560px}
 .hero-rule{width:74px; height:1px; margin:26px auto 0; background:linear-gradient(90deg,transparent,var(--gold-edge),transparent)}
+.totop{position:fixed; right:22px; bottom:22px; z-index:40; display:inline-flex; align-items:center; gap:7px;
+  font-family:var(--serif); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--pearl);
+  background:rgba(12,39,46,.86); border:1px solid var(--gold-edge); border-radius:100px; padding:10px 17px;
+  cursor:pointer; opacity:0; transform:translateY(12px); pointer-events:none;
+  transition:opacity .35s ease, transform .35s ease, border-color .3s ease, background .3s ease;
+  box-shadow:0 10px 30px rgba(0,0,0,.42)}
+@supports ((-webkit-backdrop-filter:blur(6px)) or (backdrop-filter:blur(6px))){ .totop{-webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px)} }
+.totop.show{opacity:1; transform:translateY(0); pointer-events:auto}
+.totop:hover{border-color:var(--gold); background:rgba(12,39,46,.96)}
+.totop:focus-visible{outline:2px solid var(--gold); outline-offset:3px}
+.totop .arw{font-size:14px; line-height:1; transform:translateY(-1px)}
 
 /* ---------- part / section headings ---------- */
 .part{display:flex; align-items:center; gap:18px; margin:74px 0 6px; color:var(--muted)}
@@ -157,7 +168,7 @@ li b, .keydef b, li strong{color:var(--pearl); font-weight:600}
   box-shadow:0 0 54px rgba(150,196,196,.16), 0 12px 44px rgba(0,0,0,.45); text-align:center}
 .chart img{width:100%; max-width:520px; height:auto; display:block; margin:0 auto}
 .chart figcaption{margin-top:16px; font-size:12.5px; letter-spacing:.02em; color:#5f6b63; font-style:italic}
-@media (max-width:560px){ body{font-size:17.5px} .wrap{padding:0 20px 80px} .typeline{font-size:10px; letter-spacing:.11em; max-width:none} }
+@media (max-width:560px){ body{font-size:17.5px} .wrap{padding:0 20px 80px} .typeline{font-size:10px; letter-spacing:.11em; max-width:none} .totop{right:14px; bottom:14px; padding:9px 15px; font-size:11px} }
 @media (max-width:360px){ .typeline{font-size:9px; letter-spacing:.05em} }
 @media (prefers-reduced-motion:reduce){ .pearl{animation:none} }
 
@@ -394,6 +405,7 @@ li b, .keydef b, li strong{color:var(--pearl); font-weight:600}
 
 <div class="footer">The Pearl Community &nbsp;&#10022;&nbsp; A Companion</div>
 </main>
+<button class="totop" type="button" aria-label="Back to top menu"><span class="arw" aria-hidden="true">&uarr;</span>Menu</button>
 <script>
 const io=new IntersectionObserver((es)=>{es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
 if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
@@ -407,6 +419,19 @@ if(!matchMedia('(prefers-reduced-motion:reduce)').matches){
  nav.addEventListener('click',(e)=>{if(e.target.closest('a'))close()});
  document.addEventListener('click',(e)=>{if(nav.classList.contains('open')&&!nav.contains(e.target)&&e.target!==btn)close()});
  document.addEventListener('keydown',(e)=>{if(e.key==='Escape')close()});
+})();
+(function(){
+ const btn=document.querySelector('.totop');
+ if(!btn) return;
+ const toggle=()=>{ if(window.pageYOffset>560) btn.classList.add('show'); else btn.classList.remove('show'); };
+ window.addEventListener('scroll',toggle,{passive:true}); toggle();
+ btn.addEventListener('click',()=>{
+   window.scrollTo({top:0,behavior:'smooth'});
+   const nav=document.getElementById('sitenav'), tog=document.querySelector('.navtoggle');
+   if(tog && getComputedStyle(tog).display!=='none' && nav){
+     setTimeout(()=>{ nav.classList.add('open'); tog.setAttribute('aria-expanded','true'); }, 480);
+   }
+ });
 })();
 </script>
 </body></html>
