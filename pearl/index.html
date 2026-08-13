@@ -66,16 +66,6 @@
   .btn{font-family:'Figtree',sans-serif;font-size:0.92rem;font-weight:500;letter-spacing:0.04em;text-decoration:none;border-radius:100px;padding:15px 30px;display:inline-block;transition:transform .3s ease,box-shadow .4s ease}
   .btn-solid{background:linear-gradient(135deg,var(--pearl),#E4DACB);color:var(--ink);box-shadow:0 0 0 rgba(228,199,154,0)}
   .btn-solid:hover{transform:translateY(-2px);box-shadow:0 12px 40px rgba(228,199,154,0.18)}
-  /* Text-only button. .btn declares no colour, and an anchor does not inherit
-     body colour, so without this it renders in the browser's default link blue
-     (purple once visited) against the dark section background. */
-  .btn-ghost:link,.btn-ghost:visited{color:#fff;text-decoration:underline;text-underline-offset:4px}
-  .btn-ghost:hover,.btn-ghost:focus{color:#fff;transform:translateY(-2px)}
-  /* The address sits as plain text rather than inside a pill so it can be
-     selected and copied without fighting the button's padding and drag
-     behaviour. Still a mailto, so clicking it works as before. */
-  .email-line{margin-top:26px;font-size:1.02rem;color:var(--pearl-dim)}
-  .email-line a:link,.email-line a:visited{color:#fff;text-decoration:underline;text-underline-offset:4px}
   .scrollcue{color:var(--pearl-faint);font-size:0.82rem;letter-spacing:0.06em;text-decoration:none;transition:color .4s ease}
   .scrollcue:hover{color:var(--pearl-dim)}
 
@@ -126,11 +116,6 @@
   .layer .depth{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:400;color:var(--nacre-gold);font-variant-numeric:tabular-nums;padding-top:2px}
   .layer h3{font-size:1.4rem;font-weight:400;color:var(--pearl);margin-bottom:8px}
   .layer p{color:var(--pearl-dim);max-width:52ch;font-size:1.02rem}
-  /* The global reset zeroes all margins, so consecutive paragraphs inside a
-     layer ran together as one block. Same adjacent-sibling pattern already
-     used for .lede + .lede above. */
-  .layer p + p{margin-top:16px}
-  .layer .price{margin-top:18px}
 
   /* ai companion */
   .ai-card{margin-top:48px;background:linear-gradient(160deg,var(--abyss-3),var(--abyss));border:1px solid var(--line);border-radius:22px;padding:48px clamp(28px,5vw,56px)}
@@ -208,12 +193,72 @@
   .pricenote{font-size:0.86rem;color:var(--pearl-faint);margin-top:22px;
     font-style:italic;max-width:56ch}
   .whofor li{margin:14px 0;color:var(--pearl-dim);font-weight:300;
-    font-size:clamp(1.02rem,1.4vw,1.16rem)}
+    font-size:clamp(1.02rem,1.4vw,1.16rem);
+    display:flex;gap:14px;align-items:baseline}
   .whofor{list-style:none;padding:0;margin:26px 0 0;max-width:56ch}
   .whofor li:before{content:'\2726';color:var(--nacre-gold);opacity:0.55;
-    margin-right:14px;font-size:0.7em;vertical-align:middle}
+    font-size:0.7em;flex:0 0 auto;line-height:1.7}
   .claim{font-family:'Fraunces',serif;font-size:clamp(1.3rem,2.4vw,1.72rem);
     color:var(--pearl);font-weight:400;line-height:1.42;margin:40px 0 0;max-width:46ch}
+
+  /* Navigation. Desktop shows the links inline; below 900px they collapse
+     behind a toggle so the topbar stays out of the way on a phone. */
+  .topbar{display:flex;align-items:center;justify-content:space-between;
+    gap:24px;position:relative}
+  .sitenav{display:flex;gap:28px;align-items:center}
+  .sitenav a{font-family:'Figtree',sans-serif;font-size:0.78rem;
+    letter-spacing:0.14em;text-transform:uppercase;color:var(--pearl-dim);
+    text-decoration:none;transition:color .25s ease;white-space:nowrap}
+  .sitenav a:hover{color:var(--nacre-gold)}
+  .navtoggle{display:none;background:none;border:0;cursor:pointer;
+    padding:10px;margin:-10px}
+  .navtoggle span{display:block;width:22px;height:1.5px;background:var(--pearl-dim);
+    margin:5px 0;transition:transform .3s ease,opacity .3s ease}
+  .navtoggle[aria-expanded="true"] span:nth-child(1){transform:translateY(6.5px) rotate(45deg)}
+  .navtoggle[aria-expanded="true"] span:nth-child(2){opacity:0}
+  .navtoggle[aria-expanded="true"] span:nth-child(3){transform:translateY(-6.5px) rotate(-45deg)}
+  @media(max-width:900px){
+    .navtoggle{display:block}
+    .sitenav{position:absolute;top:100%;right:0;left:0;flex-direction:column;
+      align-items:flex-start;gap:0;background:var(--abyss-2);
+      border-top:1px solid var(--line);border-bottom:1px solid var(--line);
+      max-height:0;overflow:hidden;transition:max-height .35s ease;z-index:60}
+    .sitenav.open{max-height:70vh}
+    .sitenav a{display:block;width:100%;padding:16px 22px;
+      border-bottom:1px solid var(--line-soft);font-size:0.82rem}
+    .sitenav a:last-child{border-bottom:0}
+  }
+
+  /* Paragraph rhythm inside the offer layers. The reset zeroes margins and
+     .layer p never set one, so split paragraphs ran together as a single block. */
+  .layer p + p{margin-top:16px}
+  .layer .ladder{margin-top:26px}
+  .layer .pricenote{margin-top:16px}
+  .layer .price{margin-top:22px}
+
+  /* Payment methods */
+  .paygrid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:38px}
+  .paycard{background:var(--abyss-2);border:1px solid var(--line);border-radius:16px;
+    padding:24px 22px}
+  .paycard .pname{font-family:'Fraunces',serif;font-size:1.06rem;color:var(--nacre-gold);
+    margin-bottom:4px}
+  .paycard .pmeta{font-size:0.78rem;color:var(--pearl-faint);letter-spacing:0.05em;
+    margin-bottom:14px}
+  .paycard a{color:var(--pearl);text-decoration:none;font-size:0.94rem;
+    border-bottom:1px solid rgba(244,237,226,0.22);padding-bottom:1px;
+    transition:border-color .25s ease,color .25s ease;word-break:break-all}
+  .paycard a:hover{color:var(--nacre-gold);border-bottom-color:var(--nacre-gold)}
+  .addr{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:0.76rem;
+    line-height:1.7;color:var(--pearl-dim);word-break:break-all;
+    user-select:all;-webkit-user-select:all;cursor:text}
+  .paynote{font-size:0.86rem;color:var(--pearl-faint);margin-top:26px;
+    font-style:italic;max-width:62ch}
+  @media(max-width:900px){ .paygrid{grid-template-columns:repeat(2,1fr)} }
+  @media(max-width:620px){ .paygrid{grid-template-columns:1fr} }
+  .plainlink{color:var(--nacre-gold);text-decoration:none;
+    border-bottom:1px solid rgba(228,199,154,0.35);padding-bottom:1px;
+    user-select:all;-webkit-user-select:all}
+  .plainlink:hover{border-bottom-color:var(--nacre-gold)}
   @media(max-width:700px){ .rung{grid-template-columns:1fr;gap:6px} }
 
 </style>
@@ -222,6 +267,19 @@
 
 <div class="topbar">
   <div class="mark">The Pearl <span>Community</span></div>
+  <button class="navtoggle" aria-label="Menu" aria-controls="sitenav" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
+  <nav class="sitenav" id="sitenav">
+    <a href="#whofor">Who it&rsquo;s for</a>
+    <a href="#genius">On genius</a>
+    <a href="#work">The work</a>
+    <a href="#how">How it works</a>
+    <a href="#technology">The technology</a>
+    <a href="#community">Community</a>
+    <a href="#paying">Paying</a>
+    <a href="#begin">Begin</a>
+  </nav>
 </div>
 
 <header class="hero">
@@ -230,7 +288,7 @@
       <div>
         <span class="eyebrow">Human Design &amp; the Gene Keys</span>
         <h1>There's a genius born <em>every minute.</em></h1>
-        <p class="sub">Not a reading you're handed and file away. A long, honest look at how you're actually made, and what that means for the thing in front of you right now.</p>
+        <p class="sub">Not a reading you're handed and then file away. A long, honest look at how you're actually made, and what that means for the thing in front of you right now.</p>
         <div class="cta-row">
           <a class="btn btn-solid" href="#begin">Begin a conversation</a>
           <a class="scrollcue" href="#whofor">↓&nbsp;&nbsp;who this is for</a>
@@ -252,9 +310,9 @@
       <li>A transition. A heartbreak. A stretch where the old way stopped working.</li>
       <li>Spiritual opening that looks like crisis from the outside.</li>
       <li>People who are neurodiverse, or carrying a diagnosis.</li>
-      <li>People who have simply been told, for a long time, that something about them is wrong.</li>
+      <li>Visionaries, artists and founders who want to take their work and their purpose further into the world.</li>
     </ul>
-    <p class="claim">I don't think anything is wrong with you. I think you were built a particular way, and nobody has read it back to you accurately.</p>
+    <p class="claim">I don't think anything is missing. I think you were built a particular way, and nobody has read it back to you accurately.</p>
     <p class="lede">That's what this is. Not fixing. Not fortune-telling. Not a system you have to learn.</p>
   </div>
   </div>
@@ -323,15 +381,17 @@
   <div class="wrap">
   <div class="section-head reveal">
     <span class="eyebrow">How it works</span>
-    <h2>Four layers. Each one complete on its own.</h2>
+    <h2>Four layers. Start anywhere.</h2>
     <p class="lede">You go as far as your own gut says, and no further.</p>
   </div>
   <div class="layer-list">
       <div class="layer reveal">
         <div class="depth">I</div>
         <div><h3>Your Companion Report</h3>
-          <p>Your chart, read properly and written for you. Not a printout, not a template with your name dropped in. Around twenty five pages in plain language about how you are actually built: your type, your authority, the shape of your energy, every gate you carry and what it means that you carry it, and your Gene Keys profile.</p>
-          <p>Written to be lived with rather than filed. What it gives you is the experience of being described accurately, probably for the first time. Not flattered. Not diagnosed. Read.</p>
+          <p>Your chart, read properly and written for you. No printout, no template with your name dropped in.</p>
+          <p>Around twenty-five pages in plain language about how you are actually built: your type, your authority, the shape of your energy, every gate you carry and what carrying it actually does, and your Gene Keys profile.</p>
+          <p>Written to be lived with rather than filed.</p>
+          <p>What it gives you is the experience of being described accurately, probably for the first time. Not flattered. Not diagnosed. Read.</p>
           <div class="price">$199 — your report as a private web page, plus three months with your Companion. <em>Introductory; this will be $399.</em></div>
         </div>
       </div>
@@ -339,7 +399,8 @@
         <div class="depth">II</div>
         <div><h3>Your Companion</h3>
           <p>Your own private thread with a guide that holds your chart. Your report is loaded into it and searchable, so you can ask about anything in it and get the actual passage rather than a paraphrase.</p>
-          <p>It doesn’t guess. Planetary positions come from a real ephemeris, chart mechanics are computed before a word is written, and when it doesn’t know something it says so. It’s there when the question actually arrives, not at the next appointment. And it’s yours: nothing crosses between people.</p>
+          <p>It doesn’t guess. Planetary positions come from a real ephemeris, chart mechanics are computed before a word is written, and when it doesn’t know something it says so.</p>
+          <p>It’s there when the question actually arrives, not at the next appointment. And it’s yours: nothing crosses between people.</p>
           <p>For some people this is the whole thing, and that’s a completely good outcome.</p>
           <div class="price">Included for three months with your report, then $20 / month.</div>
         </div>
@@ -347,34 +408,36 @@
       <div class="layer reveal">
         <div class="depth">III</div>
         <div><h3>What you add</h3>
-          <p>Four extensions. The Vault is the one that compounds: keep anything worth holding and it’s searched every time you ask something, so a thing you kept in March can surface on its own in November. Most insight gets lost because nobody could find it again.</p>
-          <div class="ladder">
+          <p>Three extensions on top of the Companion. The Vault is the one that compounds: keep anything worth holding and it&rsquo;s searched every time you ask something, so a thing you kept in March can surface on its own in November. Most insight gets lost because nobody could find it again.</p>
+    <div class="ladder">
       <div class="rung">
-        <div><span class="what">The Companion</span><span class="note">Your chart, your report, your own private thread.</span></div>
-        <div class="amt">$20 / month</div>
+        <div><span class="what">Transit weather</span><span class="note">Ask for a reading any time &mdash; right now, a specific hour, or a span of the day.</span></div>
+        <div class="amt">+$10</div>
       </div>
       <div class="rung">
-        <div><span class="what">Add the weather</span><span class="note">Transit readings on demand, or a short brief each morning and evening. $10 each.</span></div>
-        <div class="amt">$30 – $40</div>
+        <div><span class="what">Daily briefs</span><span class="note">A short reading each morning and evening, arriving on its own, set to your own hours.</span></div>
+        <div class="amt">+$10</div>
+      </div>
+      <div class="rung">
+        <div><span class="what">The Vault</span><span class="note">Keep what matters. It comes back on its own when it&rsquo;s relevant again.</span></div>
+        <div class="amt">+$30</div>
       </div>
       <div class="rung top-rung">
-        <div><span class="what">Add the Vault</span><span class="note">Both weather options included at this level.</span></div>
+        <div><span class="what">Everything together</span><span class="note">The Companion and all three extensions.</span></div>
         <div class="amt">$50 / month</div>
       </div>
-      <div class="rung">
-        <div><span class="what">Other people’s charts</span><span class="note">A partner, a child, a business partner. Up to three. A full report for any of them, $100.</span></div>
-        <div class="amt">$50 each</div>
-      </div>
     </div>
-    <p class="pricenote">These are introductory prices while I work with the first group of people. They'll roughly double once that's full. If you start at a price, that's your price for as long as you stay.</p>
+    <p class="pricenote">Other people&rsquo;s charts &mdash; a partner, a child, a business partner &mdash; $50 each, up to three. A full Companion Report like yours for any of them, an additional $100.</p>
+    <p class="pricenote">These are introductory prices while I work with the first group of people. They&rsquo;ll roughly double once that&rsquo;s full. If you start at a price, that&rsquo;s your price for as long as you stay.</p>
         </div>
       </div>
-      <div class="layer reveal">
+    <div class="layer reveal">
         <div class="depth">IV</div>
         <div><h3>Working together</h3>
-          <p>Sixty minutes, recorded, roughly weekly or biweekly. These are not chart readings. They’re about what’s actually alive in you right now, and the chart mostly stays out of the room. Afterward I look at what surfaced against your mechanics and bring something back.</p>
-          <p>Each conversation is folded back into your corpus, so month six isn’t a repeat of month one. If you want it, a shared thread as well: a dyad where both charts are live. I put my own chart in that room too, because if my definition is conditioning you somewhere, I can see it and name it. Someone reading you from a neutral distance structurally cannot.</p>
-          <div class="price">By conversation.</div>
+          <p>Sixty minutes, recorded, roughly weekly or biweekly. These aren’t chart readings. They’re about what’s actually alive in you right now, and the chart mostly stays out of the room. Afterward I look at what surfaced against your mechanics and bring something back.</p>
+          <p>Each conversation is folded back into your corpus, so month six isn’t a repeat of month one.</p>
+          <p>If you want it, a shared thread as well: a dyad where both charts are live. I put my own chart in that room too, because if my definition is conditioning you somewhere, I can see it and name it. Someone reading you from a neutral distance structurally cannot.</p>
+          <div class="price">$75 per 60-minute session. The shared thread, by conversation.</div>
         </div>
       </div>
   </div>
@@ -384,11 +447,11 @@
 <section class="ai tint-2" id="technology">
   <div class="wrap">
   <div class="section-head reveal">
-    <span class="eyebrow">Between the calls</span>
+    <span class="eyebrow">On the technology</span>
     <h2>It holds what shouldn’t have to be carried.</h2>
   </div>
   <div class="ai-card reveal">
-    <p class="lede">I want to be plain about what the Companion is and isn't, because most of this field is vague about it. It holds your mechanics exactly. It computes real positions rather than recalling them. It searches your report and everything you've kept, and it remembers what we find so nothing gets lost.</p>
+    <p class="lede">I want to be plain about what the Companion is and isn't, because most of this field is vague about it. It holds your mechanics exactly, searches your report and everything you’ve kept, and remembers what we find so nothing gets lost.</p>
     <p class="lede">What it doesn't do is the seeing. The alchemy. The thing that happens when a person actually meets you.</p>
     <p class="claim">The technology is what lets the human part stay human.</p>
     <p class="lede">Because the machinery holds the mechanics, our conversations don't have to. We're not spending an hour on what your Gate 42 means. We're spending it on what's actually happening in your life, and the mechanics come in afterward as a lens on what surfaced rather than a frame pushed onto it.</p>
@@ -403,9 +466,66 @@
     <span class="eyebrow">How it deepens</span>
     <h2>A pearl is made in layers.</h2>
     <p class="lede">Nacre laid over grit, one coat at a time. Nothing true about you resolves in a single sitting, so your reading is never finished. It's returned to, refined, deepened.</p>
-    <p class="lede">That isn't a metaphor about patience. It's how the thing is built. Your report is the first coat. What you keep is the second. What surfaces in conversation is the third. Six months in, when you ask a question, what answers you is partly Ra, partly Rudd, and increasingly you.</p>
+    <p class="lede">Six months in, when you ask a question, what answers you is partly Ra, partly Rudd, and increasingly you.</p>
     <p class="claim">At three months, everyone gets a synthesis: whatever has come up across your conversations, gathered and reflected back. It's yours to keep whatever you decide to do next.</p>
   </div>
+  </div>
+</section>
+
+<section class="mission" id="community">
+  <div class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">Coming</span>
+    <h2>Contemplation goes further among peers.</h2>
+    <p class="lede">Everything above is intensely personal &mdash; your chart, your thread, your own accumulating record. And I&rsquo;ve found that these systems work better when the personal work is happening alongside other people doing the same thing. Not instead of the solitary part. Around it.</p>
+    <p class="lede">Something shifts when you hear someone else describe a mechanic you also carry, in their own life, in their own words. It stops being a framework and becomes a shared language. Recognitions arrive that neither of you would have reached alone, and the timing of them is often uncanny.</p>
+    <p class="claim">So a small community is forming: a shared space for the people doing this work, with group calls, gatherings, and the ordinary daily exchange of people who are paying attention to the same things.</p>
+    <p class="lede">Small and chosen rather than open &mdash; not to be exclusive, but because a room like this only works when everyone in it is actually in the work. The bonds that come out of it tend to be real, and so do the opportunities.</p>
+    <p class="pricenote">Opt-in, $25 / month, once it opens. If you&rsquo;re in before then, you&rsquo;re part of how it forms.</p>
+  </div>
+  </div>
+</section>
+
+<section class="packages" id="paying">
+  <div class="wrap">
+  <div class="section-head reveal">
+    <span class="eyebrow">Paying</span>
+    <h2>However suits you.</h2>
+    <p class="lede">Nothing here is a checkout. We talk first, agree what makes sense, and then you use whichever of these is easiest for you.</p>
+  </div>
+  <div class="paygrid reveal">
+    <div class="paycard">
+      <div class="pname">PayPal</div>
+      <div class="pmeta">Card or balance</div>
+      <a href="https://paypal.me/BretWarshawsky">paypal.me/BretWarshawsky</a>
+    </div>
+    <div class="paycard">
+      <div class="pname">Venmo</div>
+      <div class="pmeta">US only</div>
+      <a href="https://venmo.com/u/bretwarshawsky">@bretwarshawsky</a>
+    </div>
+    <div class="paycard">
+      <div class="pname">Wise</div>
+      <div class="pmeta">Bank transfer, any currency</div>
+      <a href="https://wise.com/pay/me/bretw">wise.com/pay/me/bretw</a>
+    </div>
+    <div class="paycard">
+      <div class="pname">Bitcoin</div>
+      <div class="pmeta">BTC &middot; tap to select</div>
+      <div class="addr">bc1qgh3a9cqs6u75uwpjlsjz8c0hm7mtk5mml5fpr2</div>
+    </div>
+    <div class="paycard">
+      <div class="pname">Ethereum</div>
+      <div class="pmeta">ETH &middot; tap to select</div>
+      <div class="addr">0x390eB69325bE97A9C7C5cA0a98fEe1E7BcbB6012</div>
+    </div>
+    <div class="paycard">
+      <div class="pname">Something else</div>
+      <div class="pmeta">Ask</div>
+      <a href="mailto:bret@bretwarshawsky.com">bret@bretwarshawsky.com</a>
+    </div>
+  </div>
+  <p class="paynote">Wise is usually the cleanest option from outside the US, and it handles the currency conversion. If none of these work where you are, say so and we&rsquo;ll find something that does.</p>
   </div>
 </section>
 
@@ -415,9 +535,9 @@
     <h2 style="margin-top:22px">For the ones who feel there's more to meet.</h2>
     <p class="lede">If something here is already answering a question you carry, that's your gut, and it's the only authority that matters. Begin a conversation, and we'll see what wants to unfold.</p>
     <div class="cta-row" style="margin-top:34px">
-      <a class="btn btn-ghost" href="https://t.me/Bret_Warshawsky">Message me on Telegram</a>
+      <a class="btn btn-solid" href="https://t.me/Bret_Warshawsky">Message me on Telegram</a>
     </div>
-    <p class="email-line">Email Bret at: <a href="mailto:bret@bretwarshawsky.com?subject=The%20Pearl%20Community">bret@bretwarshawsky.com</a></p>
+    <p class="lede" style="margin-top:22px">Or email me directly: <a class="plainlink" href="mailto:bret@bretwarshawsky.com">bret@bretwarshawsky.com</a></p>
     <p class="who"><span class="glyph">&#10022;</span>&nbsp;&nbsp;The Pearl Community is guided by Bret Warshawsky, a Human&nbsp;Design &amp; Gene&nbsp;Keys guide. Not a guru on a throne — a companion in the field.</p>
   </div>
 </section>
@@ -433,6 +553,21 @@
 </footer>
 
 <script>
+  (function(){
+    var t=document.querySelector('.navtoggle'), n=document.getElementById('sitenav');
+    if(t&&n){
+      t.addEventListener('click',function(){
+        var open=n.classList.toggle('open');
+        t.setAttribute('aria-expanded', open?'true':'false');
+      });
+      n.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click',function(){
+          n.classList.remove('open'); t.setAttribute('aria-expanded','false');
+        });
+      });
+    }
+  })();
+
   const obs=new IntersectionObserver((entries)=>{
     entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');obs.unobserve(e.target)}});
   },{threshold:0.12});
