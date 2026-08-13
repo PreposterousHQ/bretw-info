@@ -71,6 +71,11 @@
      (purple once visited) against the dark section background. */
   .btn-ghost:link,.btn-ghost:visited{color:#fff;text-decoration:underline;text-underline-offset:4px}
   .btn-ghost:hover,.btn-ghost:focus{color:#fff;transform:translateY(-2px)}
+  /* The address sits as plain text rather than inside a pill so it can be
+     selected and copied without fighting the button's padding and drag
+     behaviour. Still a mailto, so clicking it works as before. */
+  .email-line{margin-top:26px;font-size:1.02rem;color:var(--pearl-dim)}
+  .email-line a:link,.email-line a:visited{color:#fff;text-decoration:underline;text-underline-offset:4px}
   .scrollcue{color:var(--pearl-faint);font-size:0.82rem;letter-spacing:0.06em;text-decoration:none;transition:color .4s ease}
   .scrollcue:hover{color:var(--pearl-dim)}
 
@@ -410,9 +415,9 @@
     <h2 style="margin-top:22px">For the ones who feel there's more to meet.</h2>
     <p class="lede">If something here is already answering a question you carry, that's your gut, and it's the only authority that matters. Begin a conversation, and we'll see what wants to unfold.</p>
     <div class="cta-row" style="margin-top:34px">
-      <a class="btn btn-solid" href="mailto:bret@bretwarshawsky.com?subject=The%20Pearl%20Community">Email Bret at: bret@bretwarshawsky.com</a>
       <a class="btn btn-ghost" href="https://t.me/Bret_Warshawsky">Message me on Telegram</a>
     </div>
+    <p class="email-line">Email Bret at: <a href="mailto:bret@bretwarshawsky.com?subject=The%20Pearl%20Community">bret@bretwarshawsky.com</a></p>
     <p class="who"><span class="glyph">&#10022;</span>&nbsp;&nbsp;The Pearl Community is guided by Bret Warshawsky, a Human&nbsp;Design &amp; Gene&nbsp;Keys guide. Not a guru on a throne — a companion in the field.</p>
   </div>
 </section>
